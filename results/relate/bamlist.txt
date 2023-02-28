@@ -1,0 +1,6 @@
+bam/child-0_1.bam
+bam/child-3_2.bam
+bam/founder-0.bam
+bam/founder-1.bam
+bam/founder-2.bam
+bam/founder-3.bam
