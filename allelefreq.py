@@ -11,7 +11,7 @@ sites = 100000
 invariable_sites = 1000
 
 # Start with four founders
-founders = 4
+founders = 200
 
 # Basic DNA
 geno = [0, 1]
@@ -142,27 +142,6 @@ def make_ref():
         ref.append("N")
     save_genome(ref, "reference_genome")
 
-# Decides what pairs mate
-def mating_pairs(ind_genotypes):
-    # This stupid logic just makes a list of pairs that will mate
-    # Whill need to be edited if we want to do anything other than P/O with no siblings
-    pairs = []
-    keys = list(ind_genotypes.keys())
-    while len(keys) > 1:
-        r1 = random.choices(keys)[0]
-        keys.remove(r1)
-        r2 = random.choices(keys)[0]
-        keys.remove(r2)
-        pairs.append([r1,r2])
-
-    # Make a children's dictionary
-    children = {}
-    for p in pairs:
-        i1, i2 = p
-        id = "%s_%s" % (i1, i2)
-        children[id] = mate(ind_genotypes[i1], ind_genotypes[i2])
-    return children
-
 # Prints variable sites
 def print_sites(f, id):
     f1, f2 = geno_out(f)
@@ -211,9 +190,16 @@ msg("Generated ancestral")
 derived = get_derived(ancestral)
 msg("Generated derived")
 
-# Makes children
-children = mating_pairs(founders)
-msg("Made children")
+children = {}
+children["A"] = mate(founders[0], founders[1])
+children["B"] = mate(founders[0], founders[1])
+children["C"] = mate(children["A"], children["B"])
+children["D"] = mate(founders[0], children["A"])
+children["E"] = mate(founders[0], children["B"])
+children["F"] = mate(founders[1], children["A"])
+children["G"] = mate(founders[1], children["B"])
+
+
 
 # Makes the reference genome, with Ns in the variable positions
 make_ref()
